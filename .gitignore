@@ -1,0 +1,15 @@
+# Arquivos de ambiente e senhas (CRÍTICO)
+.env
+.env.local
+.env.*.local
+
+# Pastas de dependências de código (Exemplos comuns)
+node_modules/
+dist/
+build/
+
+# Arquivos do sistema operacional ou editores
+.DS_Store
+.vscode/
+.idea/
+*.log
