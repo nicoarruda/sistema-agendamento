@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  agendamento_postgres:
+    image: postgres:${DB_VERSION}-alpine
+    container_name: ${CONTAINER_NAME}
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "${HOST_PORT}:5432"
+    volumes:
+      - ${VOLUME_NAME}:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  pgdata_book_system:
+    name: ${VOLUME_NAME}
