@@ -1,0 +1,109 @@
+services:
+
+# Postgress database
+  book_postgres:
+    image: postgres:${POSTGRES_DB_VERSION}-alpine
+    container_name: ${POSTGRES_CONTAINER_NAME}
+    environment:
+      POSTGRES_USER: ${POSTGRES_DB_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_DB_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB_NAME}
+    ports:
+      - "${POSTGRES_HOST_PORT}:5432"
+    volumes:
+      - book_postgresdata_system:/var/lib/postgresql/data
+    restart: always
+
+# MySQL database
+  book_mysql:
+    image: mysql:${MYSQL_DB_VERSION}
+    container_name: ${MYSQL_CONTAINER_NAME}
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_DB_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_DB_USER}
+      MYSQL_PASSWORD: ${MYSQL_DB_PASSWORD}
+      MYSQL_DB: ${MYSQL_DB_NAME}
+    ports:
+      - "${MYSQL_HOST_PORT}:3306"
+    volumes:
+      - book_mysqldata_system:/var/lib/mysql
+    restart: always
+
+# Microsoft SQL Server
+  book_sqlserver:
+    image: mcr.microsoft.com/mssql/server:${SQLSERVER_DB_VERSION}
+    container_name: ${SQLSERVER_CONTAINER_NAME}
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${SQLSERVER_DB_PASSWORD}
+    ports:
+      - "${SQLSERVER_HOST_PORT}:1433"
+    volumes:
+      - book_sqlserverdata_system:/var/opt/mssql
+    restart: always
+
+# Oracle database
+  book_oracle:
+    image: container-registry.oracle.com/database/free:${ORACLE_DB_VERSION}
+    container_name: ${ORACLE_CONTAINER_NAME}
+    environment:
+      ORACLE_PASSWORD: ${ORACLE_DB_PASSWORD}
+      ORACLE_DB: ${ORACLE_DB_NAME}
+    ports:
+      - "${ORACLE_HOST_PORT}:1521"
+    volumes:
+      - book_oracledata_system:/opt/oracle/oradata
+    restart: always
+
+# Cassandra database
+  book_cassandra:
+    image: ${CASSANDRA_DB_VERSION}
+    container_name: ${CASSANDRA_CONTAINER_NAME}
+    ports:
+      - "${CASSANDRA_HOST_PORT}:9042"
+    volumes:
+      - book_cassandradata_system:/var/lib/cassandra
+    restart: always
+
+# MongoDB database
+  book_mongo:
+    image: mongo:${MONGO_DB_VERSION}
+    container_name: ${MONGO_CONTAINER_NAME}
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_DB_PASSWORD}
+    ports:
+      - "${MONGO_HOST_PORT}:27017"
+    volumes:
+      - book_mongodata_system:/data/db
+    restart: always
+
+# Redis database
+  book_redis:
+    image: redis:${REDIS_DB_VERSION}-alpine
+    container_name: ${REDIS_CONTAINER_NAME}
+    environment:
+      REDIS_USER: ${REDIS_DB_USER}
+      REDIS_PASSWORD: ${REDIS_DB_PASSWORD}
+      REDIS_DB: ${REDIS_DB_NAME}
+    ports:
+      - "${REDIS_HOST_PORT}:6379"
+    volumes:
+      - book_redisdata_system:/data
+    restart: always
+
+volumes:
+  book_postgresdata_system:
+    name: ${POSTGRES_VOLUME_NAME}
+  book_mysqldata_system:
+    name: ${MYSQL_VOLUME_NAME}
+  book_sqlserverdata_system:
+    name: ${SQLSERVER_VOLUME_NAME}
+  book_oracledata_system:
+    name: ${ORACLE_VOLUME_NAME}
+  book_cassandradata_system:
+    name: ${CASSANDRA_VOLUME_NAME}
+  book_mongodata_system:
+    name: ${MONGO_VOLUME_NAME}
+  book_redisdata_system:
+    name: ${REDIS_VOLUME_NAME}
